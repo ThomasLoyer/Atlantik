@@ -123,6 +123,8 @@
       <DependentUpon>formAjouterTarif.cs</DependentUpon>
     </Compile>
     <Compile Include="GenerationElementDynamique.cs" />
+    <Compile Include="LiaisonPortArriveeDepart.cs" />
+    <Compile Include="Periode.cs" />
     <Compile Include="Port.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

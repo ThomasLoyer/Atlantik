@@ -15,7 +15,7 @@ namespace Atlantik
             label.Name = nom;
             label.Text = text;
             label.Location = new System.Drawing.Point(x, y);
-            label.Size = new System.Drawing.Size(150,20);
+            label.Size = new System.Drawing.Size(150,20); //Penser à rentrer la taille dans les parametre plutôt qu'en dure
             return label;
         }
         public static TextBox GenererTextBox(string nom, int x, int y)

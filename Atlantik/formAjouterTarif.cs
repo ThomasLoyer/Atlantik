@@ -58,12 +58,59 @@ namespace Atlantik
             {
                 lbxSecteurs.Items.Add(secteur);
             }
+            dataReader.Close();
+        }
+        private void InitPeriode()
+        {
+            MySqlDataReader dataReader;
+            List<Periode> periodesListe = new List<Periode>();
+            dataReader = SetupReader("select * from Periode");
+
+            while (dataReader.Read())
+            {
+                periodesListe.Add(new Periode(int.Parse(dataReader.GetValue(0).ToString()), dataReader.GetValue(1).ToString(), dataReader.GetValue(2).ToString()));
+            }
+            foreach(Periode periode in periodesListe)
+            {
+                cbxPeriode.Items.Add(periode);
+            }
+            dataReader.Close();
         }
         private void formAjouterTarif_Load(object sender, EventArgs e)
         {
             Connection.Open();
             InitTarifCategorie();
             InitSecteur();
+            InitPeriode();
+            Connection.Close();
+        }
+
+        private void lbxSecteurs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Connection.Open();
+            Secteur secteurSelectionne = (Secteur)lbxSecteurs.SelectedItem;
+            int noSecteur = secteurSelectionne.getNoSecteur();
+            MySqlDataReader dataReader;
+            List<LiaisonPortArriveeDepart> liaisonListe = new List<LiaisonPortArriveeDepart>();
+
+            string requete = "SELECT \r\n    L.NOSECTEUR,\r\n    P1.NOM AS NOM_PORT_DEPART,\r\n    P2.NOM AS NOM_PORT_ARRIVEE\r\nFROM \r\n    liaison AS L\r\nINNER JOIN \r\n    port AS P1 ON L.NOPORT_DEPART = P1.NOPORT\r\nINNER JOIN \r\n    port AS P2 ON L.NOPORT_ARRIVEE = P2.NOPORT\r\nWHERE \r\n    L.NOSECTEUR = @nosecteur;";
+            MySqlCommand cmd = new MySqlCommand(requete, Connection);
+            cmd.Parameters.AddWithValue("@nosecteur",noSecteur);
+            dataReader = cmd.ExecuteReader();
+
+            liaisonListe.Clear();
+            cbxLiaison.Items.Clear();
+
+            while (dataReader.Read())
+            {
+                liaisonListe.Add(new LiaisonPortArriveeDepart(int.Parse(dataReader.GetValue(0).ToString()), dataReader.GetValue(1).ToString(), dataReader.GetValue(2).ToString()));
+            }
+            foreach (LiaisonPortArriveeDepart portDepartArrivee in liaisonListe)
+            {
+                cbxLiaison.Items.Add(portDepartArrivee);
+            }
+            dataReader.Close();
+            Connection.Close();
         }
     }
 }

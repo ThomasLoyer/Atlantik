@@ -44,6 +44,7 @@
             this.lbxSecteurs.Name = "lbxSecteurs";
             this.lbxSecteurs.Size = new System.Drawing.Size(120, 225);
             this.lbxSecteurs.TabIndex = 0;
+            this.lbxSecteurs.SelectedIndexChanged += new System.EventHandler(this.lbxSecteurs_SelectedIndexChanged);
             // 
             // lblSecteurs
             // 
@@ -85,7 +86,7 @@
             this.cbxPeriode.FormattingEnabled = true;
             this.cbxPeriode.Location = new System.Drawing.Point(92, 349);
             this.cbxPeriode.Name = "cbxPeriode";
-            this.cbxPeriode.Size = new System.Drawing.Size(191, 21);
+            this.cbxPeriode.Size = new System.Drawing.Size(240, 21);
             this.cbxPeriode.TabIndex = 5;
             // 
             // btnAjouter
@@ -101,7 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(529, 396);
+            this.ClientSize = new System.Drawing.Size(498, 396);
             this.Controls.Add(this.btnAjouter);
             this.Controls.Add(this.cbxPeriode);
             this.Controls.Add(this.lblPeriode);
