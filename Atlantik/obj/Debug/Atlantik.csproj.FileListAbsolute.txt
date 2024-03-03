@@ -43,3 +43,4 @@ C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.csproj
 C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAjouterSecteur.resources
 C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAjouterPort.resources
 C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAjouterTarif.resources
+C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAjouterBateau.resources

@@ -20,23 +20,18 @@ namespace Atlantik
         }
         private void InitTarifCategorie()
         {
-            GroupBox groupBox = new GroupBox();
-            groupBox.Text = "Tarifs par Catégorie-Type";
-            groupBox.Location = new Point(175,25);
-            groupBox.Size = new Size(300, 275);
-
             string[] textLabel = { "A1 - Adulte:", "A2 - Junior 8 à 18 ans:", "A3 - Enfant 0 à 7 ans:", "B1 - Voiture long.inf.4m:", "B2 - Voiture long.inf.5m:", "C1 - Fourgon:", "C2 - Camping Car:", "C3 - Camion:" };
             string[] nomLabel = { "lblA1", "lblA2", "lblA3", "lblB1", "lblB2", "lblC1", "lblC2", "lblC3" };
             string[] nomTextBox = { "tbxA1", "tbxA2", "tbxA3", "tbxB1", "tbxB2", "tbxC1", "tbxC2", "tbxC3" };
 
             for (int i = 0; i < textLabel.Length; i++)
             {
-                Label label = GenerationElementDynamique.GenererLabel(nomLabel[i], textLabel[i], 200, 50 + (i * 30));
+                Label label = GenerationElementDynamique.GenererLabel(nomLabel[i], textLabel[i], 200, 50 + (i * 30), 150, 20);
                 this.Controls.Add(label);
                 TextBox textBox = GenerationElementDynamique.GenererTextBox(nomTextBox[i], 350, 50 + (i*30));
                 this.Controls.Add(textBox);
             }
-
+            GroupBox groupBox = GenerationElementDynamique.GenererGroupBox("Tarifs par Catégorie-Type", 175, 25, 300, 275);
             this.Controls.Add(groupBox);
         }
         private MySqlDataReader SetupReader(string requete)
@@ -111,6 +106,13 @@ namespace Atlantik
             }
             dataReader.Close();
             Connection.Close();
+        }
+
+        private void btnAjouter_Click(object sender, EventArgs e)
+        {
+            Connection.Open();
+            string requete = "insert into tarifer(Noperiode, Lettrecategorie, Notype, Noliaison, Tarif) values(@noperiode, @lettrecategorie, @notype, @noliaison, @tarif);";
+            MySqlCommand cmd = new MySqlCommand(requete,Connection);
         }
     }
 }

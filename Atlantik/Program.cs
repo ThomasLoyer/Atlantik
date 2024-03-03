@@ -19,7 +19,8 @@ namespace Atlantik
             //Application.Run(new formAjouterSecteur());
             //Application.Run(new formAjoutLiaison());
             //Application.Run(new formAjouterPort());
-            Application.Run(new formAjouterTarif());
+            //Application.Run(new formAjouterTarif());  //<---- Possiblement beaucoup de conneries 
+            Application.Run(new formAjouterBateau());
         }
     }
 }
