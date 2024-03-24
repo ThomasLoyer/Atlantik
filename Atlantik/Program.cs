@@ -16,11 +16,7 @@ namespace Atlantik
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new formAjouterSecteur());
-            //Application.Run(new formAjoutLiaison());
-            //Application.Run(new formAjouterPort());
-            //Application.Run(new formAjouterTarif());  //<---- Possiblement beaucoup de conneries 
-            Application.Run(new formAjouterBateau());
+            Application.Run(new formAccueil());
         }
     }
 }

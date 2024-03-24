@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Ocsp;
+using static System.Net.Mime.MediaTypeNames;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Atlantik
 {
@@ -18,32 +21,55 @@ namespace Atlantik
         {
             InitializeComponent();
         }
-        private void InitTarifCategorie()
+        private void formAjouterTarif_Load(object sender, EventArgs e)
         {
-            string[] textLabel = { "A1 - Adulte:", "A2 - Junior 8 à 18 ans:", "A3 - Enfant 0 à 7 ans:", "B1 - Voiture long.inf.4m:", "B2 - Voiture long.inf.5m:", "C1 - Fourgon:", "C2 - Camping Car:", "C3 - Camion:" };
-            string[] nomLabel = { "lblA1", "lblA2", "lblA3", "lblB1", "lblB2", "lblC1", "lblC2", "lblC3" };
-            string[] nomTextBox = { "tbxA1", "tbxA2", "tbxA3", "tbxB1", "tbxB2", "tbxC1", "tbxC2", "tbxC3" };
-
-            for (int i = 0; i < textLabel.Length; i++)
+            try
             {
-                Label label = GenerationElementDynamique.GenererLabel(nomLabel[i], textLabel[i], 200, 50 + (i * 30), 150, 20);
-                this.Controls.Add(label);
-                TextBox textBox = GenerationElementDynamique.GenererTextBox(nomTextBox[i], 350, 50 + (i*30));
-                this.Controls.Add(textBox);
+                Connection.Open();
+                InitTarif();
+                InitSecteur();
+                InitPeriode();
             }
-            GroupBox groupBox = GenerationElementDynamique.GenererGroupBox("Tarifs par Catégorie-Type", 175, 25, 300, 275);
-            this.Controls.Add(groupBox);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { Connection.Close(); }
         }
-        private MySqlDataReader SetupReader(string requete)
+        private void InitTarif()
         {
+            int i = 0;
+            MySqlDataReader dataReader;
+            string requete = "Select * from type";
             MySqlCommand cmd = new MySqlCommand(requete, Connection);
-            return cmd.ExecuteReader();
+            dataReader = cmd.ExecuteReader();
+            while (dataReader.Read())
+            {
+                Label label = new Label();
+                label.Name = "lbl" + dataReader.GetValue(0).ToString() + dataReader.GetValue(1).ToString();
+                label.Text = dataReader.GetValue(0).ToString() + dataReader.GetValue(1).ToString() + " - " + dataReader.GetValue(2).ToString();
+                label.Location = new System.Drawing.Point(20, 20 + (i * 30));
+                label.Size = new System.Drawing.Size(150, 20);
+
+                TextBox textBox = new TextBox();
+                textBox.Name = "tbx" + dataReader.GetValue(0).ToString() + dataReader.GetValue(1).ToString();
+                textBox.Location = new System.Drawing.Point(170, 20 + (i*30));
+                textBox.Tag = dataReader.GetValue(0).ToString() + ";" + dataReader.GetValue(1).ToString();
+
+                i++;
+
+                gbxCatégorie.Controls.Add(label);
+                gbxCatégorie.Controls.Add(textBox);
+            }
+            dataReader.Close();
         }
         private void InitSecteur()
         {
             MySqlDataReader dataReader;
             List<Secteur> secteurList = new List<Secteur>();
-            dataReader = SetupReader("select * from Secteur");
+            string requete = "select * from Secteur";
+            MySqlCommand cmd = new MySqlCommand(requete, Connection);
+            dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
                 secteurList.Add(new Secteur(int.Parse(dataReader.GetValue(0).ToString()), dataReader.GetValue(1).ToString()));
@@ -53,13 +79,14 @@ namespace Atlantik
             {
                 lbxSecteurs.Items.Add(secteur);
             }
-            dataReader.Close();
         }
         private void InitPeriode()
         {
             MySqlDataReader dataReader;
             List<Periode> periodesListe = new List<Periode>();
-            dataReader = SetupReader("select * from Periode");
+            string requete = "select * from Periode";
+            MySqlCommand cmd = new MySqlCommand(requete,Connection);
+            dataReader = cmd.ExecuteReader();
 
             while (dataReader.Read())
             {
@@ -71,48 +98,75 @@ namespace Atlantik
             }
             dataReader.Close();
         }
-        private void formAjouterTarif_Load(object sender, EventArgs e)
-        {
-            Connection.Open();
-            InitTarifCategorie();
-            InitSecteur();
-            InitPeriode();
-            Connection.Close();
-        }
 
         private void lbxSecteurs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Connection.Open();
-            Secteur secteurSelectionne = (Secteur)lbxSecteurs.SelectedItem;
-            int noSecteur = secteurSelectionne.getNoSecteur();
-            MySqlDataReader dataReader;
-            List<LiaisonPortArriveeDepart> liaisonListe = new List<LiaisonPortArriveeDepart>();
-
-            string requete = "SELECT \r\n    L.NOSECTEUR,\r\n    P1.NOM AS NOM_PORT_DEPART,\r\n    P2.NOM AS NOM_PORT_ARRIVEE\r\nFROM \r\n    liaison AS L\r\nINNER JOIN \r\n    port AS P1 ON L.NOPORT_DEPART = P1.NOPORT\r\nINNER JOIN \r\n    port AS P2 ON L.NOPORT_ARRIVEE = P2.NOPORT\r\nWHERE \r\n    L.NOSECTEUR = @nosecteur;";
-            MySqlCommand cmd = new MySqlCommand(requete, Connection);
-            cmd.Parameters.AddWithValue("@nosecteur",noSecteur);
-            dataReader = cmd.ExecuteReader();
-
-            liaisonListe.Clear();
-            cbxLiaison.Items.Clear();
-
-            while (dataReader.Read())
+            try
             {
-                liaisonListe.Add(new LiaisonPortArriveeDepart(int.Parse(dataReader.GetValue(0).ToString()), dataReader.GetValue(1).ToString(), dataReader.GetValue(2).ToString()));
+                Connection.Open();
+                Secteur secteurSelectionne = (Secteur)lbxSecteurs.SelectedItem;
+                int noSecteur = secteurSelectionne.getNoSecteur();
+                MySqlDataReader dataReader;
+                List<LiaisonPortArriveeDepart> liaisonListe = new List<LiaisonPortArriveeDepart>();
+
+                string requete = "SELECT \r\n    L.NOLIAISON,\r\n    P1.NOM AS NOM_PORT_DEPART,\r\n    P2.NOM AS NOM_PORT_ARRIVEE\r\nFROM \r\n    liaison AS L\r\nINNER JOIN \r\n    port AS P1 ON L.NOPORT_DEPART = P1.NOPORT\r\nINNER JOIN \r\n    port AS P2 ON L.NOPORT_ARRIVEE = P2.NOPORT\r\nWHERE \r\n    L.NOSECTEUR = @nosecteur;";
+                MySqlCommand cmd = new MySqlCommand(requete, Connection);
+                cmd.Parameters.AddWithValue("@nosecteur", noSecteur);
+                dataReader = cmd.ExecuteReader();
+
+                liaisonListe.Clear();
+                cbxLiaison.Items.Clear();
+
+                while (dataReader.Read())
+                {
+                    liaisonListe.Add(new LiaisonPortArriveeDepart(int.Parse(dataReader.GetValue(0).ToString()), dataReader.GetValue(1).ToString(), dataReader.GetValue(2).ToString()));
+                }
+                foreach (LiaisonPortArriveeDepart liaison in liaisonListe)
+                {
+                    cbxLiaison.Items.Add(liaison);
+                }
+                dataReader.Close();
             }
-            foreach (LiaisonPortArriveeDepart portDepartArrivee in liaisonListe)
+            catch(Exception ex)
             {
-                cbxLiaison.Items.Add(portDepartArrivee);
+                MessageBox.Show(ex.Message);
             }
-            dataReader.Close();
-            Connection.Close();
+            finally { Connection.Close(); }
         }
 
         private void btnAjouter_Click(object sender, EventArgs e)
         {
-            Connection.Open();
-            string requete = "insert into tarifer(Noperiode, Lettrecategorie, Notype, Noliaison, Tarif) values(@noperiode, @lettrecategorie, @notype, @noliaison, @tarif);";
-            MySqlCommand cmd = new MySqlCommand(requete,Connection);
+            Periode perdiode = (Periode)cbxPeriode.SelectedItem;
+            LiaisonPortArriveeDepart liaison = (LiaisonPortArriveeDepart)cbxLiaison.SelectedItem;
+            try
+            {
+                Connection.Open();
+                foreach(Control controls in gbxCatégorie.Controls)
+                {
+                    if (controls is TextBox)
+                    {
+                        TextBox textBox = (TextBox)controls;
+                        string[] categorie = textBox.Tag.ToString().Split(';');
+                        string requete = "insert into tarifer(Noperiode, Lettrecategorie, Notype, Noliaison, Tarif) values(@noperiode, @lettrecategorie, @notype, @noliaison, @tarif);";
+                        MySqlCommand cmd = new MySqlCommand(requete, Connection);
+                        cmd.Parameters.AddWithValue("@noperiode", perdiode.getNoPerdiode());
+                        cmd.Parameters.AddWithValue("@noliaison", liaison.GetLiaison());
+                        cmd.Parameters.AddWithValue("@lettrecategorie", categorie[0]);
+                        cmd.Parameters.AddWithValue("@notype", categorie[1]);
+                        cmd.Parameters.AddWithValue("@tarif", textBox.Text.ToString());
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.Close();
+                MessageBox.Show("Tarif(s) ajouter");
+            }
         }
     }
 }

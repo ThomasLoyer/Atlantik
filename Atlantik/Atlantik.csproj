@@ -98,11 +98,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AjouterLiaison.cs">
+    <Compile Include="Client.cs" />
+    <Compile Include="formAccueil.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AjouterLiaison.Designer.cs">
-      <DependentUpon>AjouterLiaison.cs</DependentUpon>
+    <Compile Include="formAccueil.Designer.cs">
+      <DependentUpon>formAccueil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formAfficherTraversee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formAfficherTraversee.Designer.cs">
+      <DependentUpon>formAfficherTraversee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formAjouterTraversée.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formAjouterTraversée.Designer.cs">
+      <DependentUpon>formAjouterTraversée.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Bateau.cs" />
+    <Compile Include="formAjouterLiaison.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formAjouterLiaison.Designer.cs">
+      <DependentUpon>formAjouterLiaison.cs</DependentUpon>
     </Compile>
     <Compile Include="formAjouterBateau.cs">
       <SubType>Form</SubType>
@@ -128,15 +148,38 @@
     <Compile Include="formAjouterTarif.Designer.cs">
       <DependentUpon>formAjouterTarif.cs</DependentUpon>
     </Compile>
-    <Compile Include="GenerationElementDynamique.cs" />
+    <Compile Include="formDetailsReservation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formDetailsReservation.Designer.cs">
+      <DependentUpon>formDetailsReservation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formModifierBateau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formModifierBateau.Designer.cs">
+      <DependentUpon>formModifierBateau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formModifierParamètresSite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formModifierParamètresSite.Designer.cs">
+      <DependentUpon>formModifierParamètresSite.cs</DependentUpon>
+    </Compile>
     <Compile Include="LiaisonPortArriveeDepart.cs" />
     <Compile Include="Periode.cs" />
     <Compile Include="Port.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Secteur.cs" />
-    <EmbeddedResource Include="AjouterLiaison.resx">
-      <DependentUpon>AjouterLiaison.cs</DependentUpon>
+    <EmbeddedResource Include="formAccueil.resx">
+      <DependentUpon>formAccueil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formAfficherTraversee.resx">
+      <DependentUpon>formAfficherTraversee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formAjouterLiaison.resx">
+      <DependentUpon>formAjouterLiaison.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="formAjouterBateau.resx">
       <DependentUpon>formAjouterBateau.cs</DependentUpon>
@@ -150,6 +193,18 @@
     <EmbeddedResource Include="formAjouterTarif.resx">
       <DependentUpon>formAjouterTarif.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="formAjouterTraversée.resx">
+      <DependentUpon>formAjouterTraversée.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formDetailsReservation.resx">
+      <DependentUpon>formDetailsReservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formModifierBateau.resx">
+      <DependentUpon>formModifierBateau.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formModifierParamètresSite.resx">
+      <DependentUpon>formModifierParamètresSite.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -158,6 +213,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Secteur.datasource" />
@@ -173,6 +229,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6870619_20200211234736001_1_XLARGE.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

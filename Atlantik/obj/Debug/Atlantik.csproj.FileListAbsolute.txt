@@ -44,3 +44,9 @@ C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAj
 C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAjouterPort.resources
 C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAjouterTarif.resources
 C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAjouterBateau.resources
+C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formModifierBateau.resources
+C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.Ajouter_une_traversée.resources
+C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formModifierParamètresSite.resources
+C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formDetailsReservation.resources
+C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAccueil.resources
+C:\Users\thoma\source\repos\Atlantik\Atlantik\Atlantik\obj\Debug\Atlantik.formAfficherTraversee.resources

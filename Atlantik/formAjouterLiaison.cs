@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Atlantik
 {
@@ -32,22 +33,16 @@ namespace Atlantik
             }
             finally
             {
-                if(Connection is object & Connection.State == ConnectionState.Open)
-                {
-                    Connection.Close();
-                }
+                Connection.Close();
             }
-        }
-        private MySqlDataReader SetupReader(string requete)
-        {
-            MySqlCommand cmd = new MySqlCommand(requete, Connection);
-            return cmd.ExecuteReader();
         }
         private void InitSecteur()
         {
             MySqlDataReader dataReader;
             List<Secteur> secteurList = new List<Secteur>();
-            dataReader = SetupReader("select * from Secteur");
+            string requete = "select * from Secteur";
+            MySqlCommand cmd = new MySqlCommand(requete, Connection);
+            dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
                 secteurList.Add(new Secteur(int.Parse(dataReader.GetValue(0).ToString()), dataReader.GetValue(1).ToString()));
@@ -62,7 +57,9 @@ namespace Atlantik
         {           
             MySqlDataReader dataReader;
             List<Port> portList = new List<Port>();
-            dataReader = SetupReader("select * from Port");
+            string requete = "select * from Port";
+            MySqlCommand cmd = new MySqlCommand(requete, Connection);
+            dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
                 portList.Add(new Port(int.Parse(dataReader.GetValue(0).ToString()), dataReader.GetValue(1).ToString()));
@@ -84,15 +81,26 @@ namespace Atlantik
             Port PortArrivee = (Port)cbxArrivee.SelectedItem;
             int noPortArrivee = PortArrivee.GetNoPort();
             double distance = double.Parse(tbxDistance.Text);
-
-            Connection.Open();
-            string requete = "insert into liaison(noport_depart, nosecteur, noport_arrivee, distance) values(@depart, @secteur, @arrivee, @distance)";
-            var cmd = new MySqlCommand(requete, Connection);
-            cmd.Parameters.AddWithValue("@depart", noPortDepart);
-            cmd.Parameters.AddWithValue("@secteur", noSecteur);
-            cmd.Parameters.AddWithValue("@arrivee", noPortArrivee);
-            cmd.Parameters.AddWithValue("@distance", distance);
-            cmd.ExecuteNonQuery();
+            try
+            {
+                Connection.Open();
+                string requete = "insert into liaison(noport_depart, nosecteur, noport_arrivee, distance) values(@depart, @secteur, @arrivee, @distance)";
+                var cmd = new MySqlCommand(requete, Connection);
+                cmd.Parameters.AddWithValue("@depart", noPortDepart);
+                cmd.Parameters.AddWithValue("@secteur", noSecteur);
+                cmd.Parameters.AddWithValue("@arrivee", noPortArrivee);
+                cmd.Parameters.AddWithValue("@distance", distance);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally 
+            {
+                Connection.Close();
+                MessageBox.Show("Liaison ajouté");
+            }
         }
     }
 }

@@ -21,13 +21,23 @@ namespace Atlantik
 
         private void btnAjouterSecteur_Click(object sender, EventArgs e)
         {
-            Connection.Open();
-            string requete = "insert into Secteur(nom) values(@nom);";
-            MySqlCommand cmd = new MySqlCommand(requete, Connection);
-            cmd.Parameters.AddWithValue("@nom", tbxAjoutSecteur.Text);
-            cmd.ExecuteNonQuery();
-            Connection.Close();
-            MessageBox.Show("Secteur Ajouter");
+            try
+            {
+                Connection.Open();
+                string requete = "insert into Secteur(nom) values(@nom);";
+                MySqlCommand cmd = new MySqlCommand(requete, Connection);
+                cmd.Parameters.AddWithValue("@nom", tbxAjoutSecteur.Text);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.Close();
+                MessageBox.Show("Secteur Ajouté");
+            }
         }
     }
 }

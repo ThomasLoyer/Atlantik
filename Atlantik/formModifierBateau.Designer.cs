@@ -1,6 +1,6 @@
 ﻿namespace Atlantik
 {
-    partial class formAjouterBateau
+    partial class formModifierBateau
     {
         /// <summary>
         /// Required designer variable.
@@ -29,58 +29,59 @@
         private void InitializeComponent()
         {
             this.lblNomBateau = new System.Windows.Forms.Label();
-            this.tbxNomBateau = new System.Windows.Forms.TextBox();
-            this.btnAjouterBateau = new System.Windows.Forms.Button();
+            this.cbxNomBateau = new System.Windows.Forms.ComboBox();
+            this.btnModifier = new System.Windows.Forms.Button();
             this.gbxCapacite = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
             // lblNomBateau
             // 
             this.lblNomBateau.AutoSize = true;
-            this.lblNomBateau.Location = new System.Drawing.Point(23, 48);
+            this.lblNomBateau.Location = new System.Drawing.Point(24, 37);
             this.lblNomBateau.Name = "lblNomBateau";
-            this.lblNomBateau.Size = new System.Drawing.Size(87, 16);
+            this.lblNomBateau.Size = new System.Drawing.Size(88, 16);
             this.lblNomBateau.TabIndex = 0;
-            this.lblNomBateau.Text = "Nom bateau :";
+            this.lblNomBateau.Text = "Nom Bateau :";
             // 
-            // tbxNomBateau
+            // cbxNomBateau
             // 
-            this.tbxNomBateau.Location = new System.Drawing.Point(116, 48);
-            this.tbxNomBateau.Name = "tbxNomBateau";
-            this.tbxNomBateau.Size = new System.Drawing.Size(100, 22);
-            this.tbxNomBateau.TabIndex = 1;
+            this.cbxNomBateau.FormattingEnabled = true;
+            this.cbxNomBateau.Location = new System.Drawing.Point(118, 37);
+            this.cbxNomBateau.Name = "cbxNomBateau";
+            this.cbxNomBateau.Size = new System.Drawing.Size(121, 24);
+            this.cbxNomBateau.TabIndex = 1;
             // 
-            // btnAjouterBateau
+            // btnModifier
             // 
-            this.btnAjouterBateau.Location = new System.Drawing.Point(141, 124);
-            this.btnAjouterBateau.Name = "btnAjouterBateau";
-            this.btnAjouterBateau.Size = new System.Drawing.Size(75, 23);
-            this.btnAjouterBateau.TabIndex = 2;
-            this.btnAjouterBateau.Text = "Ajouter";
-            this.btnAjouterBateau.UseVisualStyleBackColor = true;
-            this.btnAjouterBateau.Click += new System.EventHandler(this.btnAjouterBateau_Click);
+            this.btnModifier.Location = new System.Drawing.Point(141, 161);
+            this.btnModifier.Name = "btnModifier";
+            this.btnModifier.Size = new System.Drawing.Size(75, 23);
+            this.btnModifier.TabIndex = 2;
+            this.btnModifier.Text = "Modifier";
+            this.btnModifier.UseVisualStyleBackColor = true;
+            this.btnModifier.Click += new System.EventHandler(this.btnModifier_Click);
             // 
             // gbxCapacite
             // 
-            this.gbxCapacite.Location = new System.Drawing.Point(234, 24);
+            this.gbxCapacite.Location = new System.Drawing.Point(264, 26);
             this.gbxCapacite.Name = "gbxCapacite";
-            this.gbxCapacite.Size = new System.Drawing.Size(320, 142);
+            this.gbxCapacite.Size = new System.Drawing.Size(335, 158);
             this.gbxCapacite.TabIndex = 3;
             this.gbxCapacite.TabStop = false;
-            this.gbxCapacite.Text = "Capacité Maximale";
+            this.gbxCapacite.Text = "Capacité Maximales";
             // 
-            // formAjouterBateau
+            // formModifierBateau
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(589, 192);
+            this.ClientSize = new System.Drawing.Size(645, 221);
             this.Controls.Add(this.gbxCapacite);
-            this.Controls.Add(this.btnAjouterBateau);
-            this.Controls.Add(this.tbxNomBateau);
+            this.Controls.Add(this.btnModifier);
+            this.Controls.Add(this.cbxNomBateau);
             this.Controls.Add(this.lblNomBateau);
-            this.Name = "formAjouterBateau";
-            this.Text = "formAjouterBateau";
-            this.Load += new System.EventHandler(this.formAjouterBateau_Load);
+            this.Name = "formModifierBateau";
+            this.Text = "Modifier un bateau";
+            this.Load += new System.EventHandler(this.formModifierBateau_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -89,8 +90,8 @@
         #endregion
 
         private System.Windows.Forms.Label lblNomBateau;
-        private System.Windows.Forms.TextBox tbxNomBateau;
-        private System.Windows.Forms.Button btnAjouterBateau;
+        private System.Windows.Forms.ComboBox cbxNomBateau;
+        private System.Windows.Forms.Button btnModifier;
         private System.Windows.Forms.GroupBox gbxCapacite;
     }
 }

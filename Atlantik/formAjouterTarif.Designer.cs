@@ -35,6 +35,7 @@
             this.lblPeriode = new System.Windows.Forms.Label();
             this.cbxPeriode = new System.Windows.Forms.ComboBox();
             this.btnAjouter = new System.Windows.Forms.Button();
+            this.gbxCatégorie = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
             // lbxSecteurs
@@ -99,11 +100,21 @@
             this.btnAjouter.UseVisualStyleBackColor = true;
             this.btnAjouter.Click += new System.EventHandler(this.btnAjouter_Click);
             // 
+            // gbxCatégorie
+            // 
+            this.gbxCatégorie.Location = new System.Drawing.Point(202, 30);
+            this.gbxCatégorie.Name = "gbxCatégorie";
+            this.gbxCatégorie.Size = new System.Drawing.Size(284, 266);
+            this.gbxCatégorie.TabIndex = 7;
+            this.gbxCatégorie.TabStop = false;
+            this.gbxCatégorie.Text = "Tarifs par Catégorie - Type";
+            // 
             // formAjouterTarif
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(498, 396);
+            this.Controls.Add(this.gbxCatégorie);
             this.Controls.Add(this.btnAjouter);
             this.Controls.Add(this.cbxPeriode);
             this.Controls.Add(this.lblPeriode);
@@ -128,5 +139,6 @@
         private System.Windows.Forms.Label lblPeriode;
         private System.Windows.Forms.ComboBox cbxPeriode;
         private System.Windows.Forms.Button btnAjouter;
+        private System.Windows.Forms.GroupBox gbxCatégorie;
     }
 }

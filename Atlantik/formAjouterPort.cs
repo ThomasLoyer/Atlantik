@@ -21,13 +21,23 @@ namespace Atlantik
         }
         private void btnAjouterPort_Click(object sender, EventArgs e)
         {
-            Connection.Open();
-            string requete = "insert into Port(nom) values(@nom);";
-            MySqlCommand cmd = new MySqlCommand(requete, Connection);
-            cmd.Parameters.AddWithValue("@nom", tbxAjouterPort.Text);
-            cmd.ExecuteNonQuery();
-            Connection.Close();
-            MessageBox.Show("Port Ajouter");
+            try
+            {
+                Connection.Open();
+                string requete = "insert into Port(nom) values(@nom);";
+                MySqlCommand cmd = new MySqlCommand(requete, Connection);
+                cmd.Parameters.AddWithValue("@nom", tbxAjouterPort.Text);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.Close();
+                MessageBox.Show("Port Ajouter");
+            }
         }
     }
 }
