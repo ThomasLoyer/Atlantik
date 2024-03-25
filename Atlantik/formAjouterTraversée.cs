@@ -127,6 +127,7 @@ namespace Atlantik
             { 
                 Connection.Close();
                 MessageBox.Show("Traversée ajouté");
+                this.Close();
             }
         }
     }

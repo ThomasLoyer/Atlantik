@@ -117,7 +117,10 @@ namespace Atlantik
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { Connection.Close(); }
+            finally 
+            { 
+                Connection.Close();
+            }
         }
     }
 }

@@ -5,12 +5,12 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.Ocsp;
 using static System.Net.Mime.MediaTypeNames;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Atlantik
 {
@@ -136,36 +136,59 @@ namespace Atlantik
 
         private void btnAjouter_Click(object sender, EventArgs e)
         {
+            bool test = true;
             Periode perdiode = (Periode)cbxPeriode.SelectedItem;
             LiaisonPortArriveeDepart liaison = (LiaisonPortArriveeDepart)cbxLiaison.SelectedItem;
-            try
+
+            foreach (Control textBox in gbxCatégorie.Controls)
             {
-                Connection.Open();
-                foreach(Control controls in gbxCatégorie.Controls)
+                if (textBox is TextBox)
                 {
-                    if (controls is TextBox)
+                    var regex = new Regex("^[0-9]*$");
+                    var resultatRegex = regex.Match(textBox.Text);
+                    if (!resultatRegex.Success)
                     {
-                        TextBox textBox = (TextBox)controls;
-                        string[] categorie = textBox.Tag.ToString().Split(';');
-                        string requete = "insert into tarifer(Noperiode, Lettrecategorie, Notype, Noliaison, Tarif) values(@noperiode, @lettrecategorie, @notype, @noliaison, @tarif);";
-                        MySqlCommand cmd = new MySqlCommand(requete, Connection);
-                        cmd.Parameters.AddWithValue("@noperiode", perdiode.getNoPerdiode());
-                        cmd.Parameters.AddWithValue("@noliaison", liaison.GetLiaison());
-                        cmd.Parameters.AddWithValue("@lettrecategorie", categorie[0]);
-                        cmd.Parameters.AddWithValue("@notype", categorie[1]);
-                        cmd.Parameters.AddWithValue("@tarif", textBox.Text.ToString());
-                        cmd.ExecuteNonQuery();
+                        textBox.BackColor = Color.Red;
+                        test = false;
                     }
                 }
             }
-            catch(Exception ex)
+            if (test == true)
             {
-                MessageBox.Show(ex.Message);
+                try
+                {
+                    Connection.Open();
+                    foreach (Control controls in gbxCatégorie.Controls)
+                    {
+                        if (controls is TextBox)
+                        {
+                            TextBox textBox = (TextBox)controls;
+                            string[] categorie = textBox.Tag.ToString().Split(';');
+                            string requete = "insert into tarifer(Noperiode, Lettrecategorie, Notype, Noliaison, Tarif) values(@noperiode, @lettrecategorie, @notype, @noliaison, @tarif);";
+                            MySqlCommand cmd = new MySqlCommand(requete, Connection);
+                            cmd.Parameters.AddWithValue("@noperiode", perdiode.getNoPerdiode());
+                            cmd.Parameters.AddWithValue("@noliaison", liaison.GetLiaison());
+                            cmd.Parameters.AddWithValue("@lettrecategorie", categorie[0]);
+                            cmd.Parameters.AddWithValue("@notype", categorie[1]);
+                            cmd.Parameters.AddWithValue("@tarif", textBox.Text.ToString());
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.Close();
+                    MessageBox.Show("Tarif(s) ajouter");
+                    this.Close();
+                }
             }
-            finally
+            else
             {
-                Connection.Close();
-                MessageBox.Show("Tarif(s) ajouter");
+                MessageBox.Show("Erreur de saisie");
             }
         }
     }

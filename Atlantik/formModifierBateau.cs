@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -78,32 +79,53 @@ namespace Atlantik
         }
         private void btnModifier_Click(object sender, EventArgs e)
         {
-            try
+            bool test = true;
+            foreach (Control textBox in gbxCapacite.Controls)
             {
-                Connection.Open();
-                Bateau bateau = (Bateau)cbxNomBateau.SelectedItem;
-                int noBateau = bateau.getNoBateau();
-                foreach (Control c in gbxCapacite.Controls)
+                if (textBox is TextBox)
                 {
-                    if (c is TextBox)
+                    var regex = new Regex("^[0-9]*$");
+                    var resultatRegex = regex.Match(textBox.Text);
+                    if (!resultatRegex.Success) 
                     {
-                        string requete = "update Contenir \r\nset CAPACITEMAX = @capacite\r\nwhere NOBATEAU = @noBateau and LETTRECATEGORIE = @lettre;";
-                        MySqlCommand cmd = new MySqlCommand(requete, Connection);
-                        cmd.Parameters.AddWithValue("@lettre", c.Tag.ToString());
-                        cmd.Parameters.AddWithValue("@capacite", c.Text.ToString());
-                        cmd.Parameters.AddWithValue("@noBateau", noBateau);
-                        cmd.ExecuteNonQuery();
+                        textBox.BackColor = Color.Red;
+                        test = false;
                     }
                 }
             }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+            if (test == true) {
+                try
+                {
+                    Connection.Open();
+                    Bateau bateau = (Bateau)cbxNomBateau.SelectedItem;
+                    int noBateau = bateau.getNoBateau();
+                    foreach (Control c in gbxCapacite.Controls)
+                    {
+                        if (c is TextBox)
+                        {
+                            string requete = "update Contenir \r\nset CAPACITEMAX = @capacite\r\nwhere NOBATEAU = @noBateau and LETTRECATEGORIE = @lettre;";
+                            MySqlCommand cmd = new MySqlCommand(requete, Connection);
+                            cmd.Parameters.AddWithValue("@lettre", c.Tag.ToString());
+                            cmd.Parameters.AddWithValue("@capacite", c.Text.ToString());
+                            cmd.Parameters.AddWithValue("@noBateau", noBateau);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.Close();
+                    MessageBox.Show("Bateau Modifié");
+                    this.Close();
+                }
             }
-            finally 
+            else
             {
-                Connection.Close();
-                MessageBox.Show("Bateau Modifié");
+                MessageBox.Show("Erreur de saisie");
             }
         }
     }

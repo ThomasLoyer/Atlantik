@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -61,36 +62,67 @@ namespace Atlantik
         }
         private void btnAjouterBateau_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Connection.Open();
-                string requeteBateau = "insert into Bateau(nom) values(@nom);";
-                MySqlCommand cmd = new MySqlCommand(requeteBateau, Connection);
-                cmd.Parameters.AddWithValue("@nom", tbxNomBateau.Text);
-                cmd.ExecuteNonQuery();
-                long noBateau = cmd.LastInsertedId;
+            bool test = true;
+            var regexBateau = new Regex("^[a-zA-Zéèêëçàâôù ûïî]*$");
+            var regexCapaciteMAX = new Regex("^[0-9]*$");
 
-                foreach (Control control in gbxCapacite.Controls)
+            var resultatRegexBateau = regexBateau.Match(tbxNomBateau.Text);
+            if (!resultatRegexBateau.Success)
+            {
+                tbxNomBateau.BackColor = Color.Red;
+                test = false;
+            }
+
+            foreach (Control textBox in gbxCapacite.Controls)
+            {
+                if (textBox is TextBox)
                 {
-                    if (control is TextBox)
+                    var resultatRegexCapaciteMAX = regexCapaciteMAX.Match(textBox.Text);
+                    if (!resultatRegexCapaciteMAX.Success)
                     {
-                        string requeteCapacite = "insert into Contenir(LETTRECATEGORIE, NOBATEAU, CAPACITEMAX) values(@lettre, @noBateau, @max);";
-                        MySqlCommand cmdCapacite = new MySqlCommand(requeteCapacite, Connection);
-                        cmdCapacite.Parameters.AddWithValue("@lettre", control.Tag.ToString());
-                        cmdCapacite.Parameters.AddWithValue("@max", control.Text.ToString());
-                        cmdCapacite.Parameters.AddWithValue("@noBateau", noBateau);
-                        cmdCapacite.ExecuteNonQuery();
+                        textBox.BackColor = Color.Red;
+                        test = false;
                     }
                 }
             }
-            catch (Exception ex)
+            if (test == true)
             {
-                MessageBox.Show(ex.Message);
+                try
+                {
+                    Connection.Open();
+                    string requeteBateau = "insert into Bateau(nom) values(@nom);";
+                    MySqlCommand cmd = new MySqlCommand(requeteBateau, Connection);
+                    cmd.Parameters.AddWithValue("@nom", tbxNomBateau.Text);
+                    cmd.ExecuteNonQuery();
+                    long noBateau = cmd.LastInsertedId;
+
+                    foreach (Control control in gbxCapacite.Controls)
+                    {
+                        if (control is TextBox)
+                        {
+                            string requeteCapacite = "insert into Contenir(LETTRECATEGORIE, NOBATEAU, CAPACITEMAX) values(@lettre, @noBateau, @max);";
+                            MySqlCommand cmdCapacite = new MySqlCommand(requeteCapacite, Connection);
+                            cmdCapacite.Parameters.AddWithValue("@lettre", control.Tag.ToString());
+                            cmdCapacite.Parameters.AddWithValue("@max", control.Text.ToString());
+                            cmdCapacite.Parameters.AddWithValue("@noBateau", noBateau);
+                            cmdCapacite.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.Close();
+                    MessageBox.Show("Bateau ajouté");
+                    this.Close();
+                }
             }
-            finally
+            else
             {
-                Connection.Close();
-                MessageBox.Show("Bateau ajouté");
+                MessageBox.Show("Erreur de saisie");
             }
         }
     }

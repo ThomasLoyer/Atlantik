@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
@@ -75,31 +76,43 @@ namespace Atlantik
         {
 
             Secteur secteurSelectionne = (Secteur)lbxSecteur.SelectedItem;
-            int noSecteur = secteurSelectionne.getNoSecteur();
             Port portDepart = (Port)cbxDepart.SelectedItem;
-            int noPortDepart = portDepart.GetNoPort();
             Port PortArrivee = (Port)cbxArrivee.SelectedItem;
+            int noSecteur = secteurSelectionne.getNoSecteur();
+            int noPortDepart = portDepart.GetNoPort();
             int noPortArrivee = PortArrivee.GetNoPort();
-            double distance = double.Parse(tbxDistance.Text);
-            try
+
+            var regex = new Regex("^[0-9]*$");
+            var resultatRegex = regex.Match(tbxDistance.Text);
+            if (!resultatRegex.Success)
             {
-                Connection.Open();
-                string requete = "insert into liaison(noport_depart, nosecteur, noport_arrivee, distance) values(@depart, @secteur, @arrivee, @distance)";
-                var cmd = new MySqlCommand(requete, Connection);
-                cmd.Parameters.AddWithValue("@depart", noPortDepart);
-                cmd.Parameters.AddWithValue("@secteur", noSecteur);
-                cmd.Parameters.AddWithValue("@arrivee", noPortArrivee);
-                cmd.Parameters.AddWithValue("@distance", distance);
-                cmd.ExecuteNonQuery();
+                tbxDistance.BackColor = Color.Red;
+                MessageBox.Show("Erreur de saisie");
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally 
-            {
-                Connection.Close();
-                MessageBox.Show("Liaison ajouté");
+                double distance = double.Parse(tbxDistance.Text);
+                try
+                {
+                    Connection.Open();
+                    string requete = "insert into liaison(noport_depart, nosecteur, noport_arrivee, distance) values(@depart, @secteur, @arrivee, @distance)";
+                    var cmd = new MySqlCommand(requete, Connection);
+                    cmd.Parameters.AddWithValue("@depart", noPortDepart);
+                    cmd.Parameters.AddWithValue("@secteur", noSecteur);
+                    cmd.Parameters.AddWithValue("@arrivee", noPortArrivee);
+                    cmd.Parameters.AddWithValue("@distance", distance);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.Close();
+                    MessageBox.Show("Liaison ajouté");
+                    this.Close();
+                }
             }
         }
     }
