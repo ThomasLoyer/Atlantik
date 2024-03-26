@@ -146,10 +146,11 @@ namespace Atlantik
                 {
                     var regex = new Regex("^[0-9]*$");
                     var resultatRegex = regex.Match(textBox.Text);
-                    if (!resultatRegex.Success)
+                    if (!resultatRegex.Success || textBox.Text.Length == 0)
                     {
                         textBox.BackColor = Color.Red;
-                        test = false;
+                        //test = false;
+                        return;
                     }
                 }
             }

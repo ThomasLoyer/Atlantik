@@ -108,7 +108,7 @@
             this.lsvTraversee.HideSelection = false;
             this.lsvTraversee.Location = new System.Drawing.Point(153, 135);
             this.lsvTraversee.Name = "lsvTraversee";
-            this.lsvTraversee.Size = new System.Drawing.Size(476, 251);
+            this.lsvTraversee.Size = new System.Drawing.Size(484, 251);
             this.lsvTraversee.TabIndex = 7;
             this.lsvTraversee.UseCompatibleStateImageBehavior = false;
             this.lsvTraversee.View = System.Windows.Forms.View.Details;
@@ -135,7 +135,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(641, 410);
+            this.ClientSize = new System.Drawing.Size(649, 410);
             this.Controls.Add(this.lblPlaces);
             this.Controls.Add(this.lblTraversee);
             this.Controls.Add(this.lsvTraversee);

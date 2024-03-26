@@ -42,6 +42,10 @@
             this.tsAfficher = new System.Windows.Forms.ToolStripMenuItem();
             this.miTraversee = new System.Windows.Forms.ToolStripMenuItem();
             this.miDetail = new System.Windows.Forms.ToolStripMenuItem();
+            this.aProposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.suchDesignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.muchSoftwareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -53,7 +57,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsAjouter,
             this.tsModifier,
-            this.tsAfficher});
+            this.tsAfficher,
+            this.aProposToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(889, 28);
@@ -162,6 +167,34 @@
             this.miDetail.Text = "Les détails d\'une reservation pour un client";
             this.miDetail.Click += new System.EventHandler(this.miDetail_Click);
             // 
+            // aProposToolStripMenuItem
+            // 
+            this.aProposToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.suchDesignToolStripMenuItem,
+            this.muchSoftwareToolStripMenuItem,
+            this.wowToolStripMenuItem});
+            this.aProposToolStripMenuItem.Name = "aProposToolStripMenuItem";
+            this.aProposToolStripMenuItem.Size = new System.Drawing.Size(84, 24);
+            this.aProposToolStripMenuItem.Text = "A propos";
+            // 
+            // suchDesignToolStripMenuItem
+            // 
+            this.suchDesignToolStripMenuItem.Name = "suchDesignToolStripMenuItem";
+            this.suchDesignToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.suchDesignToolStripMenuItem.Text = "Such design";
+            // 
+            // muchSoftwareToolStripMenuItem
+            // 
+            this.muchSoftwareToolStripMenuItem.Name = "muchSoftwareToolStripMenuItem";
+            this.muchSoftwareToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.muchSoftwareToolStripMenuItem.Text = "Much software";
+            // 
+            // wowToolStripMenuItem
+            // 
+            this.wowToolStripMenuItem.Name = "wowToolStripMenuItem";
+            this.wowToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.wowToolStripMenuItem.Text = "Wow";
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::Atlantik.Properties.Resources._6870619_20200211234736001_1_XLARGE;
@@ -206,5 +239,9 @@
         private System.Windows.Forms.ToolStripMenuItem miTraversee;
         private System.Windows.Forms.ToolStripMenuItem miDetail;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem aProposToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem suchDesignToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem muchSoftwareToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wowToolStripMenuItem;
     }
 }

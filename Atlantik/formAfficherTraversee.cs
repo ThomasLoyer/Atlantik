@@ -27,7 +27,7 @@ namespace Atlantik
             try
             {
                 lsvTraversee.Columns.Add("N°",30 );
-                lsvTraversee.Columns.Add("Heure",42 );
+                lsvTraversee.Columns.Add("Heure",50 );
                 lsvTraversee.Columns.Add("Bateau",60 );
                 lsvTraversee.Columns.Add("A Passager",70 );
                 lsvTraversee.Columns.Add("B Véh.inf.2m ",75 );
