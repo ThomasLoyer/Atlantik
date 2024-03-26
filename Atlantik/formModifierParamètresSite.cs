@@ -34,7 +34,7 @@ namespace Atlantik
                     var regex = new Regex("^[a-zA-Zéèêëçàâôù ûïî]*$");
                     var resultatTest = regex.Match(texbox.Text);
 
-                    if (!resultatTest.Success)
+                    if (!resultatTest.Success || texbox.Text.Length == 0)
                     {
                         texbox.BackColor = Color.Red;
                         test = false;
@@ -43,7 +43,7 @@ namespace Atlantik
             }
             var melRegex = new Regex(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
             var resultaTestMel = melRegex.Match(tbxMelSite.Text);
-            if (!resultaTestMel.Success)
+            if (!resultaTestMel.Success || tbxMelSite.Text.Length == 0)
             {
                 tbxMelSite.BackColor = Color.Red;
                 test = false;
@@ -79,6 +79,32 @@ namespace Atlantik
             {
                 MessageBox.Show("Erreur de saisi");
             }
+        }
+
+        private void formModifierParamètresSite_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                Connection.Open();
+                MySqlDataReader reader;
+                string requete = "select * from parametres";
+                MySqlCommand cmd = new MySqlCommand(requete, Connection);
+                reader = cmd.ExecuteReader();
+                reader.Read();
+
+                tbxIdentifiant.Text = reader.GetValue(3).ToString();
+                tbxRang.Text = reader.GetValue(2).ToString();
+                tbxSite.Text = reader.GetValue(1).ToString();
+                tbxCleHMAC.Text = reader.GetValue(4).ToString();
+                tbxMelSite.Text = reader.GetValue(6).ToString();
+
+                reader.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { Connection.Close();}
         }
     }
 }

@@ -50,6 +50,7 @@
             this.cbxNomBateau.Name = "cbxNomBateau";
             this.cbxNomBateau.Size = new System.Drawing.Size(121, 24);
             this.cbxNomBateau.TabIndex = 1;
+            this.cbxNomBateau.SelectedIndexChanged += new System.EventHandler(this.cbxNomBateau_SelectedIndexChanged);
             // 
             // btnModifier
             // 

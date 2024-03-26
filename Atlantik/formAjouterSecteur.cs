@@ -24,7 +24,7 @@ namespace Atlantik
         {
             var regex = new Regex("^[a-zA-Zéèêëçàâôù ûïî]*$");
             var resultatRegex = regex.Match(tbxAjoutSecteur.Text);
-            if (!resultatRegex.Success)
+            if (!resultatRegex.Success || tbxAjoutSecteur.Text.Length == 0)
             {
                 tbxAjoutSecteur.BackColor = Color.Red;
                 MessageBox.Show("Erreur de saisie");

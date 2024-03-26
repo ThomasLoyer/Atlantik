@@ -67,7 +67,7 @@ namespace Atlantik
             var regexCapaciteMAX = new Regex("^[0-9]*$");
 
             var resultatRegexBateau = regexBateau.Match(tbxNomBateau.Text);
-            if (!resultatRegexBateau.Success)
+            if (!resultatRegexBateau.Success || tbxNomBateau.Text.Length == 0)
             {
                 tbxNomBateau.BackColor = Color.Red;
                 test = false;
@@ -78,7 +78,7 @@ namespace Atlantik
                 if (textBox is TextBox)
                 {
                     var resultatRegexCapaciteMAX = regexCapaciteMAX.Match(textBox.Text);
-                    if (!resultatRegexCapaciteMAX.Success)
+                    if (!resultatRegexCapaciteMAX.Success || textBox.Text.Length == 0)
                     {
                         textBox.BackColor = Color.Red;
                         test = false;

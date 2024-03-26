@@ -27,7 +27,7 @@ namespace Atlantik
             {
                 Connection.Open();
                 CbxNomBateau_Load();
-                Capacite_Load();
+                //Capacite_Load();
             }
             catch (Exception ex)
             {
@@ -54,9 +54,11 @@ namespace Atlantik
         private void Capacite_Load()
         {
             int i = 0;
-            string requete = "select * from categorie";
+            Bateau bateau = (Bateau)cbxNomBateau.SelectedItem;
+            string requete = "select * from categorie c INNER join contenir co on(co.LETTRECATEGORIE = c.LETTRECATEGORIE) where nobateau = @nobateau;";
             MySqlDataReader dataReader;
             MySqlCommand cmd = new MySqlCommand(requete, Connection);
+            cmd.Parameters.AddWithValue("@nobateau", bateau.getNoBateau());
             dataReader = cmd.ExecuteReader();
 
             while (dataReader.Read())
@@ -70,6 +72,7 @@ namespace Atlantik
                 TextBox textBox = new TextBox();
                 textBox.Tag = dataReader.GetValue(0).ToString();
                 textBox.Location = new System.Drawing.Point(120, 20 + (i * 30));
+                textBox.Text = dataReader.GetValue(4).ToString();
 
                 i++;
 
@@ -86,7 +89,7 @@ namespace Atlantik
                 {
                     var regex = new Regex("^[0-9]*$");
                     var resultatRegex = regex.Match(textBox.Text);
-                    if (!resultatRegex.Success) 
+                    if (!resultatRegex.Success || textBox.Text.Length == 0) 
                     {
                         textBox.BackColor = Color.Red;
                         test = false;
@@ -127,6 +130,21 @@ namespace Atlantik
             {
                 MessageBox.Show("Erreur de saisie");
             }
+        }
+
+        private void cbxNomBateau_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gbxCapacite.Controls.Clear();
+            try
+            {
+                Connection.Open();
+                Capacite_Load();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { Connection.Close(); }
         }
     }
 }

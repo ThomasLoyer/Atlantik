@@ -84,7 +84,7 @@ namespace Atlantik
 
             var regex = new Regex("^[0-9]*$");
             var resultatRegex = regex.Match(tbxDistance.Text);
-            if (!resultatRegex.Success)
+            if (!resultatRegex.Success || tbxDistance.Text.Length == 0)
             {
                 tbxDistance.BackColor = Color.Red;
                 MessageBox.Show("Erreur de saisie");
